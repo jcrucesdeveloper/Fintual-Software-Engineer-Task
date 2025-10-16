@@ -42,12 +42,14 @@ class Portafolio:
     def __str__(self):
         """String representation of the portfolio"""
 
-        print(f"Portafolio - Total value: {self.total_value():3.f}\n")
-        print("="*30 + "\n")
+        portafolio_str = ""
+        portafolio_str += f"Portafolio - Total value: {self.total_value():.3f}\n"
+        portafolio_str += "="*30 + "\n"
 
         for stock in self.stocks:
             percentage = (stock.value() / self.total_value()) * 100
-            print(f"{stock.ticker}: {stock.shares} shares - price: {stock.price:3.f} = {stock.value():3f} ({percentage:2f})%")
+            portafolio_str+= f"{stock.ticker}: {stock.shares} shares - price: {stock.price:.3f} = {stock.value():.3f} ({percentage:.2f})%"
+        return portafolio_str
 
     def rebalance(self):  
         """
