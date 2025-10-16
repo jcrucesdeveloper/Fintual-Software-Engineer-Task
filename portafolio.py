@@ -19,6 +19,9 @@ class Stock:
         return self.price
 
     def value(self):
+        """
+        Returns the value of the Stock
+        """
         return self.shares * self.current_price()
     
 class Portafolio:
@@ -28,14 +31,14 @@ class Portafolio:
     def __init__(self, stocks, allocated_stocks):
         """
         stocks: list[Stocks]
-        allocated_stocks: dict["ticker", percentage] e.g: {"META": 0.4, "APPL": 0.6}
+        allocated_stocks: dict[str, number] e.g: {"META": 0.4, "APPL": 0.6}
         """
         self.stocks = stocks
         self.allocated_stocks = allocated_stocks
 
     def total_value(self):
         """
-        Return the total value of the portafolio
+        Return the total value of the Portafolio
         """
         total = 0
         for stock in self.stocks:
@@ -80,16 +83,15 @@ class Portafolio:
         return rebalance_stocks
 
     def print_rebalance_actions(self):
+        """
+        Helper method to print the actions required to balance the Portafolio
+        """
         allocated_stocks_str = " ".join([f"{k} {v*100:.0f}%" for k, v in self.allocated_stocks.items()])
         print(f"To make your portafolio: {allocated_stocks_str}")
         rebalance_stocks = self.rebalance()
         for stock in rebalance_stocks:
             print(f"{stock["action"]} {stock["ticker"]} {stock["shares"]:.2f} shares.")
         
-
-        
-
-
 if __name__ == "__main__":
     # Stocks
     meta = Stock("META", 100, 360)
