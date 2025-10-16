@@ -39,6 +39,15 @@ class Portafolio:
             total += stock.value()
         return total
 
+    def __str__(self):
+        """String representation of the portfolio"""
+
+        print(f"Portafolio - Total value: {self.total_value():3.f}\n")
+        print("="*30 + "\n")
+
+        for stock in self.stocks:
+            percentage = (stock.value() / self.total_value()) * 100
+            print(f"{stock.ticker}: {stock.shares} shares - price: {stock.price:3.f} = {stock.value():3f} ({percentage:2f})%")
 
     def rebalance(self):  
         """
@@ -77,9 +86,11 @@ if __name__ == "__main__":
         allocated_stocks={"META": 0.4, "APPL": 0.6}
     )
 
+    print(my_portafolio1)
+    
     rebalance_stocks = my_portafolio1.rebalance()
     for stock in rebalance_stocks:
-        print(f"{stock["action"].value} {stock["ticker"]} {stock["shares"]} shares.")
+        print(f"{stock["action"]} {stock["ticker"]} {stock["shares"]} shares.")
     
 
 
