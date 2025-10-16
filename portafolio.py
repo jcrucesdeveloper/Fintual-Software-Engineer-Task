@@ -1,0 +1,80 @@
+class Stock: 
+    """
+    A Stock class with its ticker, shares, and the current price
+    """
+    def __init__(self, ticker, shares, price):
+        self.ticker = ticker
+        self.shares = shares
+        self.price = price
+
+    def current_price(self):
+        """
+        Returns the last available price of the Stock
+        """
+        return self.price
+
+    def value(self):
+        return self.shares * self.current_price()
+    
+class Portafolio:
+    """
+    Portafolio with stocks and allocated stocks
+    """
+    def __init__(self, stocks, allocated_stocks):
+        """
+        stocks: list[Stocks]
+        allocated_stocks: dict["ticker", percentage] e.g: {"META": 0.4, "APPL": 0.6}
+        """
+        self.stocks = stocks
+        self.allocated_stocks = allocated_stocks
+
+    def total_value(self):
+        total = 0
+        for stock in self.stocks:
+            total += stock.value()
+        return total
+
+
+    def rebalance(self):
+        """
+        Returns which stocks should be sold and which ones should be bought to have a balanced Portafolio based on allocated stocks
+        """
+        rebalance_stocks = []
+        total_value = self.total_value()
+
+        for stock in self.stocks:
+            target_percentage = self.allocated_stocks[stock.ticker]
+            objetive_value = target_percentage * total_value
+            objetive_shares = objetive_value / stock.current_price()
+
+            # Buy or Sell depending of the difference
+            shares_difference = objetive_shares - stock.shares
+            stock_action = {"ticker": stock.ticker, "shares": abs(shares_difference)}
+            if shares_difference > 0: # We need to buy more shares
+                stock_action["action"] = "BUY"
+            elif shares_difference < 0:
+                stock_action["action"] = "SELL"
+            else:
+                stock_action["action"] = "KEEP"
+            rebalance_stocks.append(stock_action)
+        return rebalance_stocks
+        
+
+
+if __name__ == "__main__":
+    # Stocks
+    meta = Stock("META", 100, 360)
+    nvidia = Stock("NVDA", 40, 180)
+    appl = Stock("APPL", 30, 300)
+    
+    my_portafolio1 = Portafolio(
+        stocks=[meta,nvidia,appl],
+        allocated_stocks={"META": 0.4, "APPL": 0.6}
+    )
+
+    rebalance_stocks = my_portafolio1.rebalance()
+    for stock in rebalance_stocks:
+        print(f"{stock.action} {stock.tinker} {stock.shares} shares.")
+    
+
+
