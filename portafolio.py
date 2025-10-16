@@ -81,7 +81,6 @@ class Portafolio:
     def print_rebalance_actions(self):
         allocated_stocks_str = " ".join([f"{k} {v*100:.0f}%" for k, v in self.allocated_stocks.items()])
         print(f"To make your portafolio: {allocated_stocks_str}")
-        print("You should:")
         rebalance_stocks1 = my_portafolio1.rebalance()
         for stock in rebalance_stocks1:
             print(f"{stock["action"]} {stock["ticker"]} {stock["shares"]:.2f} shares.")
@@ -107,18 +106,11 @@ if __name__ == "__main__":
     )
 
     # Rebalances
-    my_portafolio1.print_rebalance_actions()
-
     print(my_portafolio1)
-    rebalance_stocks1 = my_portafolio1.rebalance()
-    for stock in rebalance_stocks1:
-        print(f"{stock["action"]} {stock["ticker"]} {stock["shares"]:.2f} shares.")
-
+    my_portafolio1.print_rebalance_actions()
     print("\n")
     print(my_portafolio2)
-    rebalance_stocks2 = my_portafolio2.rebalance()
-    for stock in rebalance_stocks2:
-        print(f"{stock["action"]} {stock["ticker"]} {stock["shares"]:.2f} shares.")
-    
+    my_portafolio2.print_rebalance_actions()
+
 
 
