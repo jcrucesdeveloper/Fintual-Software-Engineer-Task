@@ -43,12 +43,12 @@ class Portafolio:
         """String representation of the portfolio"""
 
         portafolio_str = ""
-        portafolio_str += f"Portafolio - Total value: {self.total_value():.3f}\n"
+        portafolio_str += f"Portafolio - Total value: {self.total_value():.2f}\n"
         portafolio_str += "="*30 + "\n"
 
         for stock in self.stocks:
             percentage = (stock.value() / self.total_value()) * 100
-            portafolio_str+= f"{stock.ticker}: {stock.shares} shares - price: {stock.price:.3f} = {stock.value():.3f} ({percentage:.2f})%"
+            portafolio_str+= f"{stock.ticker}: {stock.shares} shares - price: {stock.price:.2f} = {stock.value():.2f} ({percentage:.0f})%\n"
         return portafolio_str
 
     def rebalance(self):  
@@ -88,11 +88,21 @@ if __name__ == "__main__":
         allocated_stocks={"META": 0.4, "APPL": 0.6}
     )
 
+    my_portafolio2 = Portafolio(
+        stocks=[meta,appl,nvidia],
+        allocated_stocks={"META": 0.1, "APPL": 0.1, "NVDA": 0.8}
+    )
+
     print(my_portafolio1)
-    
-    rebalance_stocks = my_portafolio1.rebalance()
-    for stock in rebalance_stocks:
-        print(f"{stock["action"]} {stock["ticker"]} {stock["shares"]} shares.")
+    rebalance_stocks1 = my_portafolio1.rebalance()
+    for stock in rebalance_stocks1:
+        print(f"{stock["action"]} {stock["ticker"]} {stock["shares"]:.2f} shares.")
+
+    print("\n")
+    print(my_portafolio2)
+    rebalance_stocks2 = my_portafolio2.rebalance()
+    for stock in rebalance_stocks2:
+        print(f"{stock["action"]} {stock["ticker"]} {stock["shares"]:.2f} shares.")
     
 
 
