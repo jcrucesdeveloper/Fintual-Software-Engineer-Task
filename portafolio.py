@@ -1,3 +1,8 @@
+# These can be Enum too
+ACTION_BUY = "Buy"
+ACTION_SELL = "Sell"
+ACTION_KEEP = "Keep"
+
 class Stock: 
     """
     A Stock class with its ticker, shares, and the current price
@@ -35,7 +40,7 @@ class Portafolio:
         return total
 
 
-    def rebalance(self):
+    def rebalance(self):  
         """
         Returns which stocks should be sold and which ones should be bought to have a balanced Portafolio based on allocated stocks
         """
@@ -50,12 +55,12 @@ class Portafolio:
             # Buy or Sell depending of the difference
             shares_difference = objetive_shares - stock.shares
             stock_action = {"ticker": stock.ticker, "shares": abs(shares_difference)}
-            if shares_difference > 0: # We need to buy more shares
-                stock_action["action"] = "BUY"
+            if shares_difference > 0: 
+                stock_action["action"] = ACTION_BUY
             elif shares_difference < 0:
-                stock_action["action"] = "SELL"
+                stock_action["action"] = ACTION_SELL
             else:
-                stock_action["action"] = "KEEP"
+                stock_action["action"] = ACTION_KEEP
             rebalance_stocks.append(stock_action)
         return rebalance_stocks
         
@@ -64,17 +69,17 @@ class Portafolio:
 if __name__ == "__main__":
     # Stocks
     meta = Stock("META", 100, 360)
-    nvidia = Stock("NVDA", 40, 180)
     appl = Stock("APPL", 30, 300)
+    nvidia = Stock("NVDA", 40, 180)
     
     my_portafolio1 = Portafolio(
-        stocks=[meta,nvidia,appl],
+        stocks=[meta,appl],
         allocated_stocks={"META": 0.4, "APPL": 0.6}
     )
 
     rebalance_stocks = my_portafolio1.rebalance()
     for stock in rebalance_stocks:
-        print(f"{stock.action} {stock.tinker} {stock.shares} shares.")
+        print(f"{stock["action"].value} {stock["ticker"]} {stock["shares"]} shares.")
     
 
 
