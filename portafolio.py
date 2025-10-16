@@ -1,4 +1,4 @@
-# These can be Enum too
+# These can be Enum too in python 3.4, but overkill
 ACTION_BUY = "Buy"
 ACTION_SELL = "Sell"
 ACTION_KEEP = "Keep"
@@ -34,6 +34,9 @@ class Portafolio:
         self.allocated_stocks = allocated_stocks
 
     def total_value(self):
+        """
+        Return the total value of the portafolio
+        """
         total = 0
         for stock in self.stocks:
             total += stock.value()
@@ -74,6 +77,16 @@ class Portafolio:
                 stock_action["action"] = ACTION_KEEP
             rebalance_stocks.append(stock_action)
         return rebalance_stocks
+
+    def print_rebalance_actions(self):
+        allocated_stocks_str = " ".join([f"{k} {v*100:.0f}%" for k, v in self.allocated_stocks.items()])
+        print(f"To make your portafolio: {allocated_stocks_str}")
+        print("You should:")
+        rebalance_stocks1 = my_portafolio1.rebalance()
+        for stock in rebalance_stocks1:
+            print(f"{stock["action"]} {stock["ticker"]} {stock["shares"]:.2f} shares.")
+        
+
         
 
 
@@ -83,15 +96,18 @@ if __name__ == "__main__":
     appl = Stock("APPL", 30, 300)
     nvidia = Stock("NVDA", 40, 180)
     
+    # Portafolios
     my_portafolio1 = Portafolio(
         stocks=[meta,appl],
         allocated_stocks={"META": 0.4, "APPL": 0.6}
     )
-
     my_portafolio2 = Portafolio(
         stocks=[meta,appl,nvidia],
         allocated_stocks={"META": 0.1, "APPL": 0.1, "NVDA": 0.8}
     )
+
+    # Rebalances
+    my_portafolio1.print_rebalance_actions()
 
     print(my_portafolio1)
     rebalance_stocks1 = my_portafolio1.rebalance()
