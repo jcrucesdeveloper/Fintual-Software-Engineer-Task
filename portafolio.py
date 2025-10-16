@@ -63,11 +63,11 @@ class Portafolio:
 
         for stock in self.stocks:
             target_percentage = self.allocated_stocks[stock.ticker]
-            objetive_value = target_percentage * total_value
-            objetive_shares = objetive_value / stock.current_price()
+            target_value = target_percentage * total_value
+            target_shares = target_value / stock.current_price()
 
-            # Buy or Sell depending of the difference
-            shares_difference = objetive_shares - stock.shares
+            # build, sell or keep depending on the difference
+            shares_difference = target_shares - stock.shares
             stock_action = {"ticker": stock.ticker, "shares": abs(shares_difference)}
             if shares_difference > 0: 
                 stock_action["action"] = ACTION_BUY
@@ -81,8 +81,8 @@ class Portafolio:
     def print_rebalance_actions(self):
         allocated_stocks_str = " ".join([f"{k} {v*100:.0f}%" for k, v in self.allocated_stocks.items()])
         print(f"To make your portafolio: {allocated_stocks_str}")
-        rebalance_stocks1 = my_portafolio1.rebalance()
-        for stock in rebalance_stocks1:
+        rebalance_stocks = self.rebalance()
+        for stock in rebalance_stocks:
             print(f"{stock["action"]} {stock["ticker"]} {stock["shares"]:.2f} shares.")
         
 
